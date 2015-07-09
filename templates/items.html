@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+<title>Item Catalog</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h2>Item Catalog</h2>
+  {{ access_token }}
+
+{{ categories_list|safe }}
+
+</body>
+
+</html>
