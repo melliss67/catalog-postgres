@@ -20,22 +20,24 @@
 {{ categories_list|safe }}
 </div>
 <div id="content">
-  <iframe id="content" src="http://www.purple.com/faq.html" width="600" height="500"></iframe>
+  <iframe id="content_frame" src="http://www.purple.com/index.html"></iframe>
 </div>
 </div>
   <script>
   $.jstree.defaults.core.themes.icons = false;
   $('#nav').jstree();
   
-  // expand node on click or follow link if there is a url 
+  // expand node on click or open the subcategory items list is there is a number in the url 
   $("#nav").bind("select_node.jstree", function (e, data) {
     url = data.node.data.jstree.url;
 	if (url == "#") {
 		return data.instance.toggle_node(data.node);
 	}
 	else {
-		var iframe = $('#content');
-		iframe.attr('src', url)
+		var iframe = $('#content_frame');
+		$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+		//alert($SCRIPT_ROOT);
+		iframe.attr('src', $SCRIPT_ROOT + '/subcategory_items/' + url);
 	}
   });
 
@@ -46,18 +48,6 @@
 			}, 
 		}
 	});
-	
-  // expand node on click or follow link if there is a url 
-  $("#datatree").bind("select_node.jstree", function (e, data) {
-    url = data.node.a_attr.href;
-	if (url == "#") {
-		return data.instance.toggle_node(data.node);
-	}
-	else {
-		var iframe = $('#content');
-		iframe.attr('src', url)
-	}
-  });
   </script>
   
 </body>

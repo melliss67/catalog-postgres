@@ -9,14 +9,24 @@ body
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 0.8 em;
 }
-#content 
+#container
 {
-	margin-left:  150px;
+	min-height: 600px;
+}
+#content_frame
+{
+	/* margin-left:  150px; */
+	min-height: 600px;
+}
+#content
+{
+	margin-left: 300px;
+	/* min-height: 600px; */
 }
 #nav
 {
 	float: left;
-	width: 150px;
+	width: 300px;
 	padding: none;
 }
 h2
@@ -98,6 +108,12 @@ div
 {
 	background-color: #FFFFFF;
 	font-size: 1 em;
+}
+
+iframe 
+{
+	display:block;
+	width:100%;
 }
 
 ul

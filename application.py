@@ -41,8 +41,7 @@ def list_categories():
 		returnString = returnString + '<li data-jstree=\'{"opened":false,"selected":false,"url":"#"}\'>' + c.name + '<ul>'
 		subcategories = session.query(Subcategories).filter_by(category_id = c.id)
 		for s in subcategories:
-			returnString = returnString + '<li data-jstree=\'{"url":"http://www.purple.com/faq.html"}\'>' + s.name + '</li>'
-			
+			returnString = returnString + '<li data-jstree=\'{"url":"' + str(s.id) + '"}\'>' + s.name + '</li>'
 		
 		returnString = returnString + '</ul>'
 	returnString = returnString + '</li></ul>'
@@ -80,7 +79,12 @@ def showItems():
 	# subcategories = session.query(Subcategories).all()
 	categories_list = list_categories()
 	return render_template('items.html', categories_list = categories_list, user = login_session.get('username'), access_token = login_session.get('access_token'), credentials = login_session.get('credentials'))
-
+	
+@app.route('/subcategory_items/<int:subcategory_id>')
+def getItemsBySub(subcategory_id):
+	items = session.query(Items).all()
+	return render_template('items_by_sub.html', items = items)
+	
 @app.route('/test')
 def test():
 	return render_template('test.html')
@@ -163,7 +167,6 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
-    # ADD PROVIDER TO LOGIN SESSION
     login_session['provider'] = 'google'
 
     # see if user exists, if it doesn't make a new one
