@@ -12,9 +12,7 @@
 </head>
 
 
-<body>  
-
-{{ STATE }}
+<body>
 
 <!-- GOOGLE PLUS SIGN IN-->
 
@@ -47,12 +45,12 @@ function signInCallback(authResult) {
       contentType: 'application/octet-stream; charset=utf-8',
       success: function(result) {
         // Handle or verify the server response if necessary.
-	  alert(result);
+	  // alert(result);
         if (result) {
-          $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+          $('#result').html('Login Successful!</br></br>Redirecting...')
          setTimeout(function() {
           window.location.href = "/";
-			}, 4000);
+			}, 2000);
           
       } else if (authResult['error']) {
     console.log('There was an error: ' + authResult['error']);

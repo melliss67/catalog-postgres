@@ -7,13 +7,14 @@
 <body>
   <script src="{{ url_for('static', filename='jquery-1.11.3.min.js') }}"></script>
   <script src="{{ url_for('static', filename='jstree.min.js') }}"></script>
-{{ credentials }}<br>{{ user }}<br>{{ access_token }}
-{% if not credentials %}
-    <a href="{{ url_for('login') }}">log in</a>
+<div>
+{% if not access_token %}
+    <!--<a href="#" onclick="setContent('login')" {{ url_for('login') }}">log in</a>-->
+	<a href="{{ url_for('login') }}">log in</a>
 {% else %}
-    Welcome {{ user }} <a href="{{ url_for('gdisconnect') }}">log out</a><br>{{ access_token }}
+    Welcome {{ user }} <a href="{{ url_for('logout') }}">log out</a>
 {% endif %}
-
+</div>
   <h2>Item Catalog</h2>
 <div id="container">
 <div id="nav">
@@ -36,7 +37,6 @@
 	else {
 		var iframe = $('#content_frame');
 		$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-		//alert($SCRIPT_ROOT);
 		iframe.attr('src', $SCRIPT_ROOT + '/subcategory_items/' + url);
 	}
   });
@@ -48,6 +48,13 @@
 			}, 
 		}
 	});
+	
+	function setContent(url)
+	{
+		var iframe = $('#content_frame');
+		$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+		iframe.attr('src', $SCRIPT_ROOT + url);
+	}
   </script>
   
 </body>

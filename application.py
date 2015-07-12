@@ -78,11 +78,11 @@ def showItems():
 	# categories = session.query(Categories).all()
 	# subcategories = session.query(Subcategories).all()
 	categories_list = list_categories()
-	return render_template('items.html', categories_list = categories_list, user = login_session.get('username'), access_token = login_session.get('access_token'), credentials = login_session.get('credentials'))
+	return render_template('items.html', categories_list = categories_list, user = login_session.get('username'), access_token = login_session.get('access_token'))
 	
 @app.route('/subcategory_items/<int:subcategory_id>')
 def getItemsBySub(subcategory_id):
-	items = session.query(Items).all()
+	items = session.query(Items).filter_by(subcategory_id=subcategory_id)
 	return render_template('items_by_sub.html', items = items)
 	
 @app.route('/test')
@@ -111,7 +111,7 @@ def gconnect():
         oauth_flow = flow_from_clientsecrets('client_secret.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
-        return credentials.access_token
+        # return credentials.access_token
     except FlowExchangeError:
         response = make_response(
             json.dumps('Failed to upgrade the authorization code.'), 401)
@@ -154,7 +154,7 @@ def gconnect():
         return response
 
     # Store the access token in the session for later use.
-    login_session['credentials'] = credentials
+    # login_session['credentials'] = credentials
     login_session['gplus_id'] = gplus_id
 
     # Get user info
@@ -163,7 +163,8 @@ def gconnect():
     answer = requests.get(userinfo_url, params=params)
 
     data = answer.json()
-
+    
+    login_session['access_token'] = access_token
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
@@ -186,20 +187,39 @@ def gconnect():
     print "done!"
     return output
 
+@app.route('/logout')
+def logout():
+	if not login_session.get('gplus_id') is None:
+		gdisconnect()
+		
+	return redirect('/')
+
 @app.route('/gdisconnect')
 def gdisconnect():
-    # Only disconnect a connected user.
-    credentials = login_session.get('credentials')
-    if credentials is None:
+        # Only disconnect a connected user.
+    access_token = login_session.get('access_token')
+    if access_token is None:
         response = make_response(
             json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    access_token = credentials.access_token
+
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    if result['status'] != '200':
+
+    if result['status'] == '200':
+        # Reset the user's sesson.
+        del login_session['gplus_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        del login_session['access_token']
+
+        response = make_response(json.dumps('Successfully disconnected.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    else:
         # For whatever reason, the given token was invalid.
         response = make_response(
             json.dumps('Failed to revoke token for given user.', 400))
