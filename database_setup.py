@@ -54,8 +54,6 @@ class Items(Base):
 	category = relationship(Categories)
 	subcategory_id = Column(Integer,ForeignKey('subcategories.id'))
 	subcategory = relationship(Subcategories)
-	user_id = Column(Integer, ForeignKey('users.id'))
-	user = relationship(Users)
 	
 	@property
 	def serialize(self):
