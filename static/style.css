@@ -36,56 +36,6 @@ h2
 	text-align: center;
 }
 
-table.list
-{
-	border-width: 2px;
-	border-color: #FFFFFF;
-	border-style: solid;
-	width: 100%;
-}
-table.list th
-{
-	background-color: #454545;
-	color: #FFFFFF;
-	font-weight: bold;
-}
-table.list td
-{
-	background-color: #FFFFFF;
-	border-width: 1px;
-	border-color: #FFFFFF;
-	border-style: solid;
-}
-table.list td.action
-{
-	text-align: center;
-}
-
-table.form
-{
-	background-color: #FFFFFF;
-	border-width: 2px;
-	border-color: #000000;
-	border-style: solid;
-	min-width: 300px;
-}
-table.form th
-{
-	background-color: #454545;
-	color: #FFFFFF;
-	font-weight: bold;
-}
-table.form td
-{
-	border-style: solid;
-	border-color: #000000;
-	border-width: 1px;
-}
-table.form td.action
-{
-	text-align: center;
-}
-
 input
 {
 	font-size: 1.2em;
@@ -119,37 +69,4 @@ iframe
 ul
 {
 	width: 100%
-}
-
-.section
-{
-	max-width: 650px;
-	background-color: #D1C2B2;
-}
-
-.sectionHeader
-{
-	width: 100%;
-	background-color: #D1C2B2;
-	font-weight: bold;
-	font-size: 1.2 em;
-}
-
-.itemName
-{
-	width: 70%;
-	float: left;
-}
-
-.price
-{
-	width: 30%;
-	text-align: right;
-	float: right;
-}
-
-.content
-{
-	font-size: 0.8 em;
-	width: 100%;
 }
