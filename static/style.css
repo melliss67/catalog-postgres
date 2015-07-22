@@ -12,28 +12,42 @@ body
 #container
 {
 	min-height: 600px;
+	border-bottom: 6px solid #454545;
 }
 #content_frame
 {
-	/* margin-left:  150px; */
 	min-height: 600px;
+	border-left: 3px solid #454545;
 }
 #content
 {
 	margin-left: 300px;
-	/* min-height: 600px; */
 }
 #nav
 {
 	float: left;
 	width: 300px;
 	padding: none;
+	background-color: #FFFFCC;
+	min-height: 600px;
 }
 h2
 {
 	background-color: #454545;
 	color: #FFFFFF;
 	text-align: center;
+	padding: 4px;
+
+}
+
+h3
+{
+	background-color: #001F7A;
+	color: #FFFFFF;
+	text-align: left;
+	padding: 2px;
+	border-bottom: 3px solid #6679AF;
+	margin: 4px;
 }
 
 input
@@ -60,6 +74,17 @@ div
 	font-size: 1 em;
 }
 
+.information
+{
+	margin: 4px;
+}
+
+.user
+{
+	margin: 2px;
+	text-align: right;
+}
+
 iframe 
 {
 	display:block;
@@ -68,5 +93,6 @@ iframe
 
 ul
 {
-	width: 100%
+	width: 100%;
+	margin: 6px;
 }
