@@ -81,10 +81,13 @@ def getItemsBySub(subcategory_id):
 	items = session.query(Items).filter_by(subcategory_id=subcategory_id)
 	return render_template('items_by_sub.html', items = items, access_token = login_session.get('access_token'))
 	
-@app.route('/item_info/<int:item_id>')
+@app.route('/item_info/<int:item_id>', methods=['GET', 'POST'])
 def showItemInfo(item_id):
-	item = session.query(Items).filter_by(id=item_id).one()
-	return render_template('item_info.html', item = item, access_token = login_session.get('access_token'))
+	if request.mthod == 'POST':
+		return 'POST<br>Will update the record here.'
+	else:
+		item = session.query(Items).filter_by(id=item_id).one()
+		return render_template('item_info.html', item = item, access_token = login_session.get('access_token'))
 		
 @app.route('/login')
 def login():
