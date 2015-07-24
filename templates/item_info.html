@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+<head>
+<title>Item Details</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if access_token %}
+  edit stuff here
+{% else %}
+  <h3>{{ item.title }}</h3>
+  <div class="information">
+{{ item.description }}
+  </div>
+{% endif %}
+</body>
+</html>

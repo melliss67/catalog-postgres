@@ -9,7 +9,6 @@
   <script src="{{ url_for('static', filename='jstree.min.js') }}"></script>
 <div>
 {% if not access_token %}
-    <!--<a href="#" onclick="setContent('login')" {{ url_for('login') }}">log in</a>-->
 	<a href="{{ url_for('login') }}">log in</a>
 {% else %}
     Welcome {{ user }} <a href="{{ url_for('logout') }}">log out</a>
@@ -21,7 +20,7 @@
 {{ categories_list|safe }}
 </div>
 <div id="content">
-  <iframe id="content_frame" src="http://www.purple.com/index.html"></iframe>
+  <iframe id="content_frame" src="{{ url_for('static', filename='welcome.html') }}"></iframe>
 </div>
 </div>
   <script>

@@ -73,27 +73,23 @@ def getUserID(email):
 	
 @app.route('/')
 def showItems():
-	# if 'username' not in login_session:
-		# return redirect('/login')
-	# categories = session.query(Categories).all()
-	# subcategories = session.query(Subcategories).all()
 	categories_list = list_categories()
 	return render_template('items.html', categories_list = categories_list, user = login_session.get('username'), access_token = login_session.get('access_token'))
 	
 @app.route('/subcategory_items/<int:subcategory_id>')
 def getItemsBySub(subcategory_id):
 	items = session.query(Items).filter_by(subcategory_id=subcategory_id)
-	return render_template('items_by_sub.html', items = items)
+	return render_template('items_by_sub.html', items = items, access_token = login_session.get('access_token'))
 	
-@app.route('/test')
-def test():
-	return render_template('test.html')
-	
+@app.route('/item_info/<int:item_id>')
+def showItemInfo(item_id):
+	item = session.query(Items).filter_by(id=item_id).one()
+	return render_template('item_info.html', item = item, access_token = login_session.get('access_token'))
+		
 @app.route('/login')
 def login():
 	state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
 	login_session['state'] = state
-	# return "The current session state is %s" % login_session['state']
 	return render_template('login.html', STATE=state)
 	
 @app.route('/gconnect', methods=['POST'])
