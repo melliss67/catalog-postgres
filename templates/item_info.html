@@ -7,6 +7,10 @@
 <body>
 {% if access_token %}
   edit stuff here
+  <form action="#" method="post">
+    <input type="text" name="title" value="{{ item.title }}">
+    <input type="submit" value="save" id="submit">
+  </form>
 {% else %}
   <h3>{{ item.title }}</h3>
   <div class="information">
