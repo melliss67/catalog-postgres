@@ -6,7 +6,7 @@
 </head>
 <body>
 {% if access_token %}
-<input type="submit" value="add item">
+  <a href="/item/new/{{ category_id }}/{{ subcategory_id }}">New Item</a>
 {% endif %}
   <div>
 {% for item in items %}

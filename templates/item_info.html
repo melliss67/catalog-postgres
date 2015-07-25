@@ -6,10 +6,20 @@
 </head>
 <body>
 {% if access_token %}
-  edit stuff here
   <form action="#" method="post">
-    <input type="text" name="title" value="{{ item.title }}">
-    <input type="submit" value="save" id="submit">
+  <table>
+    <tr>
+      <td><input type="text" name="title" value="{{ item.title }}"></td>
+	</tr>
+	<tr>
+	  <td>
+	    <textarea name="description" rows="4" cols="50">{{ item.description }}</textarea>
+	  </td>
+	</tr>
+	<tr>
+      <td><input type="submit" value="save" id="submit"></td>
+	</tr>
+  </table>
   </form>
 {% else %}
   <h3>{{ item.title }}</h3>

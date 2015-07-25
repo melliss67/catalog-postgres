@@ -41,7 +41,7 @@ def list_categories():
 		returnString = returnString + '<li data-jstree=\'{"opened":false,"selected":false,"url":"#"}\'>' + c.name + '<ul>'
 		subcategories = session.query(Subcategories).filter_by(category_id = c.id)
 		for s in subcategories:
-			returnString = returnString + '<li data-jstree=\'{"url":"' + str(s.id) + '"}\'>' + s.name + '</li>'
+			returnString = returnString + '<li data-jstree=\'{"url":"' + str(c.id) + '/' + str(s.id) + '"}\'>' + s.name + '</li>'
 		
 		returnString = returnString + '</ul>'
 	returnString = returnString + '</li></ul>'
@@ -76,20 +76,35 @@ def showItems():
 	categories_list = list_categories()
 	return render_template('items.html', categories_list = categories_list, user = login_session.get('username'), access_token = login_session.get('access_token'))
 	
-@app.route('/subcategory_items/<int:subcategory_id>')
-def getItemsBySub(subcategory_id):
+@app.route('/subcategory_items/<int:category_id>/<int:subcategory_id>')
+def getItemsBySub(category_id, subcategory_id):
 	items = session.query(Items).filter_by(subcategory_id=subcategory_id)
-	return render_template('items_by_sub.html', items = items, access_token = login_session.get('access_token'))
+	return render_template('items_by_sub.html', items = items, access_token = login_session.get('access_token'), category_id=category_id, subcategory_id=subcategory_id)
 	
 @app.route('/item_info/<int:item_id>', methods=['GET', 'POST'])
 def showItemInfo(item_id):
 	item = session.query(Items).filter_by(id=item_id).one()
 	if request.method == 'POST':
-		newTitle = request.form['title']
 		item.title = request.form['title']
-		return redirect(url_for('getItemsBySub', subcategory_id = 1))
+		item.description = request.form['description']
+		session.commit()
+		return redirect(url_for('getItemsBySub', category_id = item.category_id, subcategory_id = item.subcategory_id))
 	else:
 		return render_template('item_info.html', item = item, access_token = login_session.get('access_token'))
+
+@app.route('/item/new/<int:category_id>/<int:subcategory_id>', methods=['GET', 'POST'])
+def newItem(category_id, subcategory_id):
+	if request.method == 'POST':
+		newItem = Items(title=request.form['title'], description=request.form['description'], category_id=request.form['category_id'], subcategory_id=request.form['subcategory_id'])
+        # return 'got here'
+		session.add(newItem)
+		flash('New item %s Successfully Created' % newItem.title)
+		session.commit()
+		return redirect(url_for('getItemsBySub', category_id = newItem.category_id, subcategory_id = newItem.subcategory_id))
+	else:
+		category = session.query(Categories).filter_by(id=category_id).one()
+		subcategory = session.query(Subcategories).filter_by(id=subcategory_id).one()
+		return render_template('new_item.html', access_token = login_session.get('access_token'), category=category, subcategory=subcategory)
 		
 @app.route('/login')
 def login():
