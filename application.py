@@ -92,6 +92,15 @@ def showItemInfo(item_id):
 	else:
 		return render_template('item_info.html', item = item, access_token = login_session.get('access_token'))
 
+@app.route('/item/delete/<int:item_id>')
+def deleteItem(item_id):
+	item = session.query(Items).filter_by(id=item_id).one()
+	category_id = item.category_id
+	subcategory_id = item.subcategory_id
+	session.delete(item)
+	session.commit()
+	return redirect(url_for('getItemsBySub', category_id = item.category_id, subcategory_id = item.subcategory_id))	
+
 @app.route('/item/new/<int:category_id>/<int:subcategory_id>', methods=['GET', 'POST'])
 def newItem(category_id, subcategory_id):
 	if request.method == 'POST':
