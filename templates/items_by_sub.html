@@ -6,11 +6,15 @@
 </head>
 <body>
 {% if access_token %}
-<input type="submit" value="add item">
+  <a href="/item/new/{{ category_id }}/{{ subcategory_id }}">New Item</a>
 {% endif %}
   <div>
 {% for item in items %}
-    <a href="/item_info/{{item.id}}">{{item.title }}</a><br>
+    <a href="/item_info/{{ item.id }}">{{item.title }}</a>
+	{% if access_token %}
+	<a href="/item/delete/{{ item.id }}">delete</a>
+	{% endif %}
+	<br>
 {% endfor %}
   </div>
 </body>
