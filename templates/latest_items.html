@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<title>Latest Items</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h3>Most Rectly Added Items</h3>
+  <div>
+{% for item in items %}
+    <a href="/item_info/{{ item.id }}">{{item.title }}</a>
+	{% if access_token %}
+	<a href="/item/delete/{{ item.id }}">delete</a>
+	{% endif %}
+	<br>
+{% endfor %}
+  </div>
+</body>
+</html>

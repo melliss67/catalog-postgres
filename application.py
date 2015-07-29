@@ -77,6 +77,11 @@ def getItemsBySub(category_id, subcategory_id):
 	items = session.query(Items).filter_by(subcategory_id=subcategory_id)
 	return render_template('items_by_sub.html', items = items, access_token = login_session.get('access_token'), category_id=category_id, subcategory_id=subcategory_id)
 	
+@app.route('/latest_items')
+def getLatestItems():
+	items = session.query(Items).order_by(Items.added.desc()).limit(5)
+	return render_template('latest_items.html', items = items, access_token = login_session.get('access_token'))
+
 @app.route('/item_info/<int:item_id>', methods=['GET', 'POST'])
 def showItemInfo(item_id):
 	item = session.query(Items).filter_by(id=item_id).one()
