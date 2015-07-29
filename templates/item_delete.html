@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+<title>Delete Item</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if access_token %}
+  <form action="#" method="post">
+    <h3>Delete {{ item.title }}?</h3>
+	<div>
+      <input type="submit" value="yes" id="submit">
+	  <a href="/subcategory_items/{{ item.category_id }}/{{ item.subcategory_id }}">cancel</a>
+	</div>
+  </form>
+{% else %}
+  <h3>Access Denied</h3>
+{% endif %}
+</body>
+</html>

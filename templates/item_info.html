@@ -9,15 +9,16 @@
   <form action="#" method="post">
   <table>
     <tr>
-      <td><input type="text" name="title" value="{{ item.title }}"></td>
+      <td colspan="2"><input type="text" name="title" size="50" value="{{ item.title }}"></td>
 	</tr>
 	<tr>
-	  <td>
+	  <td colspan="2">
 	    <textarea name="description" rows="4" cols="50">{{ item.description }}</textarea>
 	  </td>
 	</tr>
 	<tr>
       <td><input type="submit" value="save" id="submit"></td>
+	  <td><a href="/item/delete/{{ item.id }}">delete"</a></td>
 	</tr>
   </table>
   </form>

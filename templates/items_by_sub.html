@@ -10,11 +10,7 @@
 {% endif %}
   <div>
 {% for item in items %}
-    <a href="/item_info/{{ item.id }}">{{item.title }}</a>
-	{% if access_token %}
-	<a href="/item/delete/{{ item.id }}">delete</a>
-	{% endif %}
-	<br>
+    <a href="/item_info/{{ item.id }}">{{item.title }}</a><br>
 {% endfor %}
   </div>
 </body>
