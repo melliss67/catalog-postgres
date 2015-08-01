@@ -6,7 +6,7 @@
 </head>
 <body>
 {% if access_token %}
-  <a href="/item/new/{{ category_id }}/{{ subcategory_id }}">New Item</a>
+    <a class="button" href="/item/new/{{ category_id }}/{{ subcategory_id }}">New Item</a><br><br>
 {% endif %}
   <div>
 {% for item in items %}

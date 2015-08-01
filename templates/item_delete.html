@@ -10,7 +10,7 @@
     <h3>Delete {{ item.title }}?</h3>
 	<div>
       <input type="submit" value="yes" id="submit">
-	  <a href="/subcategory_items/{{ item.category_id }}/{{ item.subcategory_id }}">cancel</a>
+	  <a class="button" href="/subcategory_items/{{ item.category_id }}/{{ item.subcategory_id }}">cancel</a>
 	</div>
   </form>
 {% else %}

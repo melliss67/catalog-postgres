@@ -58,7 +58,6 @@ input
 	border-style: solid;
 	border-width: 2px
 }
-
 textarea
 {
 	font-size: 1.2em;
@@ -66,6 +65,15 @@ textarea
 	border-color: #000000;
 	border-style: solid;
 	border-width: 2px
+}
+.button 
+{
+	font-size: 1.2em;
+	text-decoration: none;
+	background-color: #FFFFCC;
+	color: #333333;
+	padding: 2px 6px 2px 6px;
+	border: 2px solid #000000;
 }
 
 div
