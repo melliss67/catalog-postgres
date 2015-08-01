@@ -23,7 +23,7 @@ class Categories(Base):
 	
 		return {
 			'id'        : self.id,
-			'name'        : self.name,
+			'name'        : self.name
 		}
 	
 	
@@ -60,9 +60,9 @@ class Items(Base):
 	def serialize(self):
 	
 		return {
-			'id'         : self.id,
-			'title'         : self.title,
-			'description'         : self.description,
+			'id'			: self.id,
+			'title'			: self.title,
+			'description'	: self.description
 		}	
 
 engine = create_engine('sqlite:///catalog.db')
