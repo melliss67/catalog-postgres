@@ -9,8 +9,8 @@
   <form action="#" method="post">
     <h3>Delete {{ item.title }}?</h3>
 	<div>
-      <input type="submit" value="yes" id="submit">
-	  <a class="button" href="/subcategory_items/{{ item.category_id }}/{{ item.subcategory_id }}">cancel</a>
+      <input type="submit" value="yes" id="submit"> 
+	  <a class="button" href="/subcategory_items/{{ item.category_id }}/{{ item.subcategory_id }}">no</a>
 	</div>
   </form>
 {% else %}
