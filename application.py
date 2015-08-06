@@ -6,6 +6,7 @@
 # JavaScript origins	http://localhost:8000
 
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from werkzeug import secure_filename
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Items, Categories, Subcategories, Users
@@ -33,6 +34,9 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+UPLOAD_FOLDER = '/venv/catalog/static/images'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 def list_categories():
 	returnString = '<ul>'
@@ -105,6 +109,11 @@ def getLatestItems():
 def showItemInfo(item_id):
 	item = session.query(Items).filter_by(id=item_id).one()
 	if request.method == 'POST':
+		file = request.files['image']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			item.image = filename
 		item.title = request.form['title']
 		item.description = request.form['description']
 		session.commit()

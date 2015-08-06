@@ -6,7 +6,7 @@
 </head>
 <body>
 {% if access_token %}
-  <form action="#" method="post">
+  <form action="#" method="post" enctype="multipart/form-data">
   <table>
     <tr>
       <td colspan="2"><input type="text" name="title" size="50" value="{{ item.title }}"></td>
@@ -16,17 +16,30 @@
 	    <textarea name="description" rows="4" cols="50">{{ item.description }}</textarea>
 	  </td>
 	</tr>
+	  <td colspan="2">
+	    New item image <input type="file" name="image">
+	  </td>
 	<tr>
       <td><input type="submit" value="Save" id="submit"></td>
 	  <td><a class="button" href="/item/delete/{{ item.id }}">Delete</a></td>
 	</tr>
   </table>
+  {% if item.image == '' %}
+    <img src="{{ url_for('static', filename='images/no_image.png') }}" width="250px"/>
+  {% else %}
+    <img src="{{ url_for('static', filename='images/' + item.image + ') }}" width="250px"/>
+  {% end if %}
   </form>
 {% else %}
   <h3>{{ item.title }}</h3>
   <div class="information">
 {{ item.description }}
   </div>
+  {% if item.image == '' %}
+    <img src="{{ url_for('static', filename='images/no_image.png') }}" width="250px"/>
+  {% else %}
+    <img src="{{ url_for('static', filename='images/' + item.image + ') }}" width="250px"/>
+  {% end if %}
 {% endif %}
 </body>
 </html>

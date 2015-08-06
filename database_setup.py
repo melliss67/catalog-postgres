@@ -51,6 +51,7 @@ class Items(Base):
 	title = Column(String(80), nullable = False)
 	description = Column(String(250))
 	added = Column(DateTime, default=datetime.datetime.now)
+	image = Column(String(250))
 	category_id = Column(Integer,ForeignKey('categories.id'))
 	category = relationship(Categories)
 	subcategory_id = Column(Integer,ForeignKey('subcategories.id'))
