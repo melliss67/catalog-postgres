@@ -16,6 +16,7 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
 import json
+from dict2xml import dict2xml as xmlify
 from flask import make_response
 import requests
 
@@ -66,6 +67,24 @@ def getUserID(email):
 		return user.id
 	except:
 		return None
+		
+def catalogDict():
+	all_items = []
+	categories = session.query(Categories).all()
+	for cat in categories:
+		current_cat = cat.serialize
+		subcategories = session.query(Subcategories).filter_by(category_id = cat.id)
+		sub_list = []
+		for sub in subcategories:
+			sub_list.append(sub.serialize)
+			items = session.query(Items).filter_by(subcategory_id = sub.id)
+			item_dict = []
+			for current_item in items:
+				item_dict.append(current_item.serialize)
+			sub_list.append({'items' : item_dict})
+		current_cat['subcategories'] = sub_list
+		all_items.append(current_cat)
+	return all_items
 	
 @app.route('/')
 def showItems():
@@ -98,23 +117,19 @@ def itemJSON(item_id):
 	item = session.query(Items).filter_by(id=item_id).one()
 	return jsonify(item.serialize)
 
+@app.route('/item_info/<int:item_id>/XML')
+def itemZML(item_id):
+	item = session.query(Items).filter_by(id=item_id).one()
+	return xmlify(item.serialize, wrap="item", indent="    ")
+
+@app.route('/catalog.xml')
+def XML():
+	all_items = catalogDict()
+	return xmlify(all_items, wrap="catalog", indent="    ")
+
 @app.route('/catalog.json')
 def JSON():
-	all_items = []
-	categories = session.query(Categories).all()
-	for cat in categories:
-		current_cat = cat.serialize
-		subcategories = session.query(Subcategories).filter_by(category_id = cat.id)
-		sub_list = []
-		for sub in subcategories:
-			sub_list.append(sub.serialize)
-			items = session.query(Items).filter_by(subcategory_id = sub.id)
-			item_dict = []
-			for current_item in items:
-				item_dict.append(current_item.serialize)
-			sub_list.append({'items' : item_dict})
-		current_cat['subcategories'] = sub_list
-		all_items.append(current_cat)
+	all_items = catalogDict()
 	return jsonify(categories=[all_items])
 
 @app.route('/item/delete/<int:item_id>', methods=['GET', 'POST'])
