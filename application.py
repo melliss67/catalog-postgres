@@ -5,6 +5,7 @@
 # Redirect URIs	none
 # JavaScript origins	http://localhost:8000
 
+import os
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from werkzeug import secure_filename
 from sqlalchemy import create_engine, asc
@@ -25,8 +26,12 @@ app = Flask(__name__)
 
 CLIENT_ID = json.loads(
 	open('client_secret.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "item-catalog"
 
+UPLOAD_FOLDER = '/vagrant/catalog/static/images'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
+APPLICATION_NAME = "item-catalog"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///catalog.db')
@@ -34,9 +39,6 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
-
-UPLOAD_FOLDER = '/venv/catalog/static/images'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 def list_categories():
 	returnString = '<ul>'
@@ -64,6 +66,8 @@ def getUserInfo(user_id):
 	user = session.query(Users).filter_by(id=user_id).one()
 	return user
 
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def getUserID(email):
 	try:
@@ -110,9 +114,9 @@ def showItemInfo(item_id):
 	item = session.query(Items).filter_by(id=item_id).one()
 	if request.method == 'POST':
 		file = request.files['image']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			item.image = filename
 		item.title = request.form['title']
 		item.description = request.form['description']
@@ -156,7 +160,12 @@ def deleteItem(item_id):
 @app.route('/item/new/<int:category_id>/<int:subcategory_id>', methods=['GET', 'POST'])
 def newItem(category_id, subcategory_id):
 	if request.method == 'POST':
-		newItem = Items(title=request.form['title'], description=request.form['description'], category_id=request.form['category_id'], subcategory_id=request.form['subcategory_id'])
+		filename = ''
+		file = request.files['image']
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		newItem = Items(title=request.form['title'], description=request.form['description'], category_id=request.form['category_id'], subcategory_id=request.form['subcategory_id'], image=filename)
 		session.add(newItem)
 		flash('New item %s Successfully Created' % newItem.title)
 		session.commit()

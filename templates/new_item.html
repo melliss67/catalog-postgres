@@ -10,7 +10,7 @@
     Adding item for Category: {{ category.name }}<br>
 	Subcategory: {{ subcategory.name }}
   </div>
-  <form action="#" method="post">
+  <form action="#" method="post" enctype="multipart/form-data">
     <input type="hidden" name="category_id" value="{{ category.id }}">
     <input type="hidden" name="subcategory_id" value="{{ subcategory.id }}">
   <table>
@@ -22,6 +22,11 @@
 	    <textarea name="description" rows="4" cols="50"></textarea>
 	  </td>
 	</tr>
+	</tr>
+	  <td colspan="2">
+	    Item image <input type="file" name="image" class="button">
+	  </td>
+	<tr>
 	<tr>
       <td><input type="submit" value="add" id="submit"></td>
 	</tr>

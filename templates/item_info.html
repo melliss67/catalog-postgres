@@ -17,29 +17,29 @@
 	  </td>
 	</tr>
 	  <td colspan="2">
-	    New item image <input type="file" name="image">
+	    Change item image <input type="file" name="image" class="button">
 	  </td>
 	<tr>
       <td><input type="submit" value="Save" id="submit"></td>
 	  <td><a class="button" href="/item/delete/{{ item.id }}">Delete</a></td>
 	</tr>
   </table>
-  {% if item.image == '' %}
+  {% if item.image is none %}
     <img src="{{ url_for('static', filename='images/no_image.png') }}" width="250px"/>
   {% else %}
-    <img src="{{ url_for('static', filename='images/' + item.image + ') }}" width="250px"/>
-  {% end if %}
+    <img src="{{ url_for('static', filename='images/' ~ item.image) }}" width="250px"/>
+  {% endif %}
   </form>
 {% else %}
   <h3>{{ item.title }}</h3>
   <div class="information">
 {{ item.description }}
   </div>
-  {% if item.image == '' %}
+  {% if item.image is none %}
     <img src="{{ url_for('static', filename='images/no_image.png') }}" width="250px"/>
   {% else %}
-    <img src="{{ url_for('static', filename='images/' + item.image + ') }}" width="250px"/>
-  {% end if %}
+    <img src="{{ url_for('static', filename='images/' ~ item.image) }}" width="250px"/>
+  {% endif %}
 {% endif %}
 </body>
 </html>
