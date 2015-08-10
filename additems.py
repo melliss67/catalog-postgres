@@ -1,3 +1,6 @@
+# This file is used to add sample items to a blank database for the item
+# catalog application.
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
