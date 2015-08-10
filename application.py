@@ -37,7 +37,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-# Return categories and subcategories in anhtl unordered list.
+# Returns categories and subcategories in anhtl unordered list.
 def list_categories():
     returnString = '<ul>'
     categories = session.query(Categories).all()
@@ -80,7 +80,7 @@ def getUserID(email):
         return None
 
 
-# Return entire catalog as a dictionary object.
+# Returns entire catalog as a dictionary object.
 def catalogDict():
     all_items = []
     categories = session.query(Categories).all()
@@ -202,7 +202,8 @@ def newItem(category_id, subcategory_id):
             newItem.category_id, subcategory_id = newItem.subcategory_id))
     else:
         category = session.query(Categories).filter_by(id=category_id).one()
-        subcategory = session.query(Subcategories).filter_by(id=subcategory_id).one()
+        subcategory = session.query(Subcategories).\
+            filter_by(id=subcategory_id).one()
         return render_template('new_item.html', access_token =
             login_session.get('access_token'), category=category,
             subcategory=subcategory)
@@ -337,7 +338,8 @@ def gdisconnect():
         del login_session['picture']
         del login_session['access_token']
 
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
+        response = make_response(json.dumps('Successfully disconnected.')
+            , 200)
         response.headers['Content-Type'] = 'application/json'
         return response
     else:
