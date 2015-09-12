@@ -18,9 +18,10 @@ from dict2xml import dict2xml as xmlify
 from database_setup import Base, Items, Categories, Subcategories, Users
 
 app = Flask(__name__)
+app.secret_key = 'super_secret_key'
 
 CLIENT_ID = json.loads(
-    open('client_secret.json', 'r').read())['web']['client_id']
+    open('/var/www/html/items-catalog/client_secret.json', 'r').read())['web']['client_id']
 
 # Used for image uploading. and file extesions to support other file types.
 UPLOAD_FOLDER = '/vagrant/catalog/static/images'
@@ -30,7 +31,7 @@ APPLICATION_NAME = "item-catalog"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Connect to database and create database session
-engine = create_engine('sqlite:///catalog.db')
+engine = create_engine('postgres://catalog:catalog@localhost/catalog')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -229,7 +230,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secret.json', scope='')
+        oauth_flow = flow_from_clientsecrets('/var/www/html/items-catalog/client_secret.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
         # return credentials.access_token
@@ -351,7 +352,6 @@ def gdisconnect():
 
 
 if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
 
