@@ -39,17 +39,19 @@ http://52.27.29.183
 	to enable WSGI
     WSGIDaemonProcess application user=www-data group=www-data threads=5
     WSGIScriptAlias / /var/www/html/catalog-postgres/catalog.wsgi
-
+```
     <Directory /var/www/html/catalog-postgres>
            WSGIProcessGroup application
            WSGIApplicationGroup %{GLOBAL}
            Order deny,allow
            Allow from all
     </Directory>
-
+```
 
 
 ## Third Party Resouces Used
+* Configring firewall
+	https://help.ubuntu.com/community/UFW
 * Configure Apache to Run Flask Applications
 	http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/
 * Configuring ufw to allow certain ports and deny others
