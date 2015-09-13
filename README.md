@@ -1,11 +1,11 @@
 # Linux Server Configuration
 
 ## Server Connection
-ip address: 52.88.157.250
+ip address: 52.27.29.183
 ssh port 2200
 
 ## Web application url
-http://52.88.157.250
+http://52.27.29.183
 
 ## Software Added to the Server
 * apache2
