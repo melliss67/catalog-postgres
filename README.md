@@ -10,6 +10,7 @@ http://52.88.157.250
 ## Software Added to the Server
 * apache2
 * postgresql
+* libapache2-mod-wsgi
 * git
 * python-dev
 * python-pip
@@ -17,6 +18,9 @@ http://52.88.157.250
 * libpq-dev
 
 ## Configuration File Changes
+* Changed sshd_config file as follows
+** changed Port from 22 to 2200
+** changed PermitRootLogin to no
 * Created catlog.wsgi file to load the application.py file in Apache
 * Had to move the line setting app.secret_key in the application.py file
 	to outside the if __name__ == '__main__': block so it would be set.
