@@ -16,11 +16,18 @@ http://52.27.29.183
 * python-pip
 * python-psycopg2
 * libpq-dev
+* Python Packages
+ * httplib2
+ * sqlalchemy
+ * Flask
+ * oauth2client
+ * xmlify
+ * dict2xml
 
 ## Configuration File Changes
 * Changed sshd_config file as follows
-** changed Port from 22 to 2200
-** changed PermitRootLogin to no
+ * changed Port from 22 to 2200
+ * changed PermitRootLogin to no
 * Created catlog.wsgi file to load the application.py file in Apache
 * Had to move the line setting app.secret_key in the application.py file
 	to outside the if __name__ == '__main__': block so it would be set.
@@ -28,6 +35,18 @@ http://52.27.29.183
 	application.py to use the postgresql databse instead of a sqllite file.
 * Edited the /etc/ssh/sshd_config file to PermitRootLogin no to restrict
 	the root user from logging in with ssh.
+* Added the lines below to the /etc/apache2/sites-enabled/000-default.conf file
+	to enable WSGI
+    WSGIDaemonProcess application user=www-data group=www-data threads=5
+    WSGIScriptAlias / /var/www/html/catalog-postgres/catalog.wsgi
+
+    <Directory /var/www/html/catalog-postgres>
+           WSGIProcessGroup application
+           WSGIApplicationGroup %{GLOBAL}
+           Order deny,allow
+           Allow from all
+    </Directory>
+
 
 
 ## Third Party Resouces Used

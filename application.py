@@ -21,7 +21,7 @@ app = Flask(__name__)
 app.secret_key = 'super_secret_key'
 
 CLIENT_ID = json.loads(
-    open('/var/www/html/items-catalog/client_secret.json', 'r').read())['web']['client_id']
+    open('/var/www/html/catalog-postgres/client_secret.json', 'r').read())['web']['client_id']
 
 # Used for image uploading. and file extesions to support other file types.
 UPLOAD_FOLDER = '/vagrant/catalog/static/images'
@@ -230,7 +230,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('/var/www/html/items-catalog/client_secret.json', scope='')
+        oauth_flow = flow_from_clientsecrets('/var/www/html/catalog-postgres/client_secret.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
         # return credentials.access_token
