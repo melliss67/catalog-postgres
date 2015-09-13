@@ -17,6 +17,13 @@ http://52.88.157.250
 * libpq-dev
 
 ## Configuration File Changes
+* Created catlog.wsgi file to load the application.py file in Apache
+* Had to move the line setting app.secret_key in the application.py file
+	to outside the if __name__ == '__main__': block so it would be set.
+* Changed the create_engine line in database_setup.py, additems.py, and
+	application.py to use the postgresql databse instead of a sqllite file.
+* Edited the /etc/ssh/sshd_config file to PermitRootLogin no to restrict
+	the root user from logging in with ssh.
 
 
 ## Third Party Resouces Used
