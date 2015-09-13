@@ -2,7 +2,7 @@
 
 ## Server Connection
 ip address: 52.88.157.250
-sh port 2200
+ssh port 2200
 
 ## Web application url
 http://52.88.157.250
@@ -19,4 +19,10 @@ http://52.88.157.250
 ## Configuration File Changes
 
 
-## THird Party Resouces Used
+## Third Party Resouces Used
+* Configure Apache to Run Flask Applications
+	http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/
+* Configuring ufw to allow certain ports and deny others
+	https://help.ubuntu.com/community/UFW
+* Disable root ssh login
+	http://askubuntu.com/questions/27559/how-do-i-disable-remote-ssh-login-as-root-from-a-server
